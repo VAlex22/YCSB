@@ -41,6 +41,9 @@ public class DBWrapper extends DB {
   private static final String LATENCY_TRACKED_ERRORS_PROPERTY = "latencytrackederrors";
 
   private final String scopeStringCleanup;
+  private final String scopeStringStartTransaction;
+  private final String scopeStringCommit;
+  private final String scopeStringAbort;
   private final String scopeStringDelete;
   private final String scopeStringInit;
   private final String scopeStringInsert;
@@ -54,6 +57,9 @@ public class DBWrapper extends DB {
     this.tracer = tracer;
     final String simple = db.getClass().getSimpleName();
     scopeStringCleanup = simple + "#cleanup";
+    scopeStringStartTransaction = simple + "#startTransaction";
+    scopeStringCommit = simple + "#commit";
+    scopeStringAbort = simple + "#abort";
     scopeStringDelete = simple + "#delete";
     scopeStringInit = simple + "#init";
     scopeStringInsert = simple + "#insert";
@@ -113,6 +119,41 @@ public class DBWrapper extends DB {
       db.cleanup();
       long en = System.nanoTime();
       measure("CLEANUP", Status.OK, ist, st, en);
+    }
+  }
+
+  /**
+   * Start transaction.
+   */
+  public void startTransaction(String key) throws DBException {
+    try (final TraceScope span = tracer.newScope(scopeStringStartTransaction)) {
+      db.startTransaction(key);
+    }
+  }
+
+  /**
+   * Commit the transaction.
+   */
+  public void commit(String key) throws DBException {
+    try (final TraceScope span = tracer.newScope(scopeStringCommit)) {
+      long ist = measurements.getIntendedtartTimeNs();
+      long st = System.nanoTime();
+      db.commit(key);
+      long en = System.nanoTime();
+      measure("COMMIT", Status.OK, ist, st, en);
+    }
+  }
+
+  /**
+   * Abort the transaction.
+   */
+  public void abort(String key) throws DBException {
+    try (final TraceScope span = tracer.newScope(scopeStringAbort)) {
+      long ist = measurements.getIntendedtartTimeNs();
+      long st = System.nanoTime();
+      db.abort(key);
+      long en = System.nanoTime();
+      measure("ABORT", Status.OK, ist, st, en);
     }
   }
 

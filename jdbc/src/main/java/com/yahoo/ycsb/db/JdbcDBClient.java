@@ -16,11 +16,7 @@
  */
 package com.yahoo.ycsb.db;
 
-import com.yahoo.ycsb.DB;
-import com.yahoo.ycsb.DBException;
-import com.yahoo.ycsb.ByteIterator;
-import com.yahoo.ycsb.Status;
-import com.yahoo.ycsb.StringByteIterator;
+import com.yahoo.ycsb.*;
 
 import java.sql.*;
 import java.util.*;
@@ -101,9 +97,9 @@ public class JdbcDBClient extends DB {
    */
   private static class OrderedFieldInfo {
     private String fieldKeys;
-    private List<String> fieldValues;
+    private List<ByteIterator> fieldValues;
 
-    OrderedFieldInfo(String fieldKeys, List<String> fieldValues) {
+    OrderedFieldInfo(String fieldKeys, List<ByteIterator> fieldValues) {
       this.fieldKeys = fieldKeys;
       this.fieldValues = fieldValues;
     }
@@ -112,7 +108,7 @@ public class JdbcDBClient extends DB {
       return fieldKeys;
     }
 
-    List<String> getFieldValues() {
+    List<ByteIterator> getFieldValues() {
       return fieldValues;
     }
   }
@@ -312,6 +308,36 @@ public class JdbcDBClient extends DB {
   }
 
   @Override
+  public void startTransaction(String key) throws DBException {
+    try {
+      getShardConnectionByKey(key).setAutoCommit(false);
+    } catch (SQLException e) {
+      System.err.println("Error in starting transaction " + ": " + e);
+      throw new DBException(e);
+    }
+  }
+
+  @Override
+  public void commit(String key) throws DBException {
+    try {
+      getShardConnectionByKey(key).commit();
+    } catch (SQLException e) {
+      System.err.println("Error while commiting transaction " + ": " + e);
+      throw new DBException(e);
+    }
+  }
+
+  @Override
+  public void abort(String key) throws DBException {
+    try {
+      getShardConnectionByKey(key).rollback();
+    } catch (SQLException e) {
+      System.err.println("Error while rollback transaction " + ": " + e);
+      throw new DBException(e);
+    }
+  }
+
+  @Override
   public Status read(String tableName, String key, Set<String> fields, HashMap<String, ByteIterator> result) {
     try {
       StatementType type = new StatementType(StatementType.Type.READ, tableName, 1, "", getShardIndexByKey(key));
@@ -327,8 +353,15 @@ public class JdbcDBClient extends DB {
       }
       if (result != null && fields != null) {
         for (String field : fields) {
-          String value = resultSet.getString(field);
-          result.put(field, new StringByteIterator(value));
+          if (result.containsKey(field)) {
+            if (result.get(field) instanceof LongByteIterator) {
+              long value = resultSet.getLong(field);
+              result.put(field, new LongByteIterator(value));
+            }
+          } else {
+            String value = resultSet.getString(field);
+            result.put(field, new StringByteIterator(value));
+          }
         }
       }
       resultSet.close();
@@ -381,8 +414,12 @@ public class JdbcDBClient extends DB {
         updateStatement = createAndCacheUpdateStatement(type, key);
       }
       int index = 1;
-      for (String value: fieldInfo.getFieldValues()) {
-        updateStatement.setString(index++, value);
+      for (ByteIterator value: fieldInfo.getFieldValues()) {
+        if (value instanceof LongByteIterator) {
+          updateStatement.setLong(index++, ((LongByteIterator) value).getValue());
+        } else {
+          updateStatement.setString(index++, value.toString());
+        }
       }
       updateStatement.setString(index, key);
       int result = updateStatement.executeUpdate();
@@ -409,8 +446,12 @@ public class JdbcDBClient extends DB {
       }
       insertStatement.setString(1, key);
       int index = 2;
-      for (String value: fieldInfo.getFieldValues()) {
-        insertStatement.setString(index++, value);
+      for (ByteIterator value: fieldInfo.getFieldValues()) {
+        if (value instanceof LongByteIterator) {
+          insertStatement.setLong(index++, ((LongByteIterator) value).getValue());
+        } else {
+          insertStatement.setString(index++, value.toString());
+        }
       }
       // Using the batch insert API
       if (batchUpdates) {
@@ -485,14 +526,14 @@ public class JdbcDBClient extends DB {
 
   private OrderedFieldInfo getFieldInfo(HashMap<String, ByteIterator> values) {
     String fieldKeys = "";
-    List<String> fieldValues = new ArrayList<>();
+    List<ByteIterator> fieldValues = new ArrayList<>();
     int count = 0;
     for (Map.Entry<String, ByteIterator> entry : values.entrySet()) {
       fieldKeys += entry.getKey();
       if (count < values.size() - 1) {
         fieldKeys += ",";
       }
-      fieldValues.add(count, entry.getValue().toString());
+      fieldValues.add(count, entry.getValue());
       count++;
     }
 
