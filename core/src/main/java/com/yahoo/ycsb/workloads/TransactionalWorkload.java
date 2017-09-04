@@ -34,7 +34,7 @@ public class TransactionalWorkload extends Workload {
   /**
    * List of field names of the database tables.
    */
-  private static final String FIELDNAME = "balance";;
+  public static final String FIELDNAME = "balance";
   private Set<String> fieldnames;
 
   /**
