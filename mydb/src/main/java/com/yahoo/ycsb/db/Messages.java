@@ -67,11 +67,11 @@ public final class Messages {
         getFieldsBytes(int index);
 
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
     int getTextRowCount();
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
     boolean containsTextRow(
         java.lang.String key);
@@ -79,25 +79,25 @@ public final class Messages {
      * Use {@link #getTextRowMap()} instead.
      */
     @java.lang.Deprecated
-    java.util.Map<java.lang.String, java.lang.String>
+    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
     getTextRow();
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
-    java.util.Map<java.lang.String, java.lang.String>
+    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
     getTextRowMap();
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
 
-    java.lang.String getTextRowOrDefault(
+    com.google.protobuf.ByteString getTextRowOrDefault(
         java.lang.String key,
-        java.lang.String defaultValue);
+        com.google.protobuf.ByteString defaultValue);
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
 
-    java.lang.String getTextRowOrThrow(
+    com.google.protobuf.ByteString getTextRowOrThrow(
         java.lang.String key);
 
     /**
@@ -111,7 +111,7 @@ public final class Messages {
         getLongFieldBytes();
 
     /**
-     * <code>int64 long_row = 7;</code>
+     * <code>sint64 long_row = 7;</code>
      */
     long getLongRow();
   }
@@ -193,7 +193,7 @@ public final class Messages {
                     TextRowDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000010;
               }
-              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               textRow__ = input.readMessage(
                   TextRowDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               textRow_.getMutableMap().put(
@@ -208,7 +208,7 @@ public final class Messages {
             }
             case 56: {
 
-              longRow_ = input.readInt64();
+              longRow_ = input.readSInt64();
               break;
             }
           }
@@ -508,18 +508,18 @@ public final class Messages {
     public static final int TEXT_ROW_FIELD_NUMBER = 5;
     private static final class TextRowDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
-          java.lang.String, java.lang.String> defaultEntry =
+          java.lang.String, com.google.protobuf.ByteString> defaultEntry =
               com.google.protobuf.MapEntry
-              .<java.lang.String, java.lang.String>newDefaultInstance(
+              .<java.lang.String, com.google.protobuf.ByteString>newDefaultInstance(
                   com.yahoo.ycsb.db.Messages.internal_static_mydb_Request_TextRowEntry_descriptor, 
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "");
+                  com.google.protobuf.WireFormat.FieldType.BYTES,
+                  com.google.protobuf.ByteString.EMPTY);
     }
     private com.google.protobuf.MapField<
-        java.lang.String, java.lang.String> textRow_;
-    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+        java.lang.String, com.google.protobuf.ByteString> textRow_;
+    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
     internalGetTextRow() {
       if (textRow_ == null) {
         return com.google.protobuf.MapField.emptyMapField(
@@ -532,7 +532,7 @@ public final class Messages {
       return internalGetTextRow().getMap().size();
     }
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
 
     public boolean containsTextRow(
@@ -544,36 +544,36 @@ public final class Messages {
      * Use {@link #getTextRowMap()} instead.
      */
     @java.lang.Deprecated
-    public java.util.Map<java.lang.String, java.lang.String> getTextRow() {
+    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextRow() {
       return getTextRowMap();
     }
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
 
-    public java.util.Map<java.lang.String, java.lang.String> getTextRowMap() {
+    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextRowMap() {
       return internalGetTextRow().getMap();
     }
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
 
-    public java.lang.String getTextRowOrDefault(
+    public com.google.protobuf.ByteString getTextRowOrDefault(
         java.lang.String key,
-        java.lang.String defaultValue) {
+        com.google.protobuf.ByteString defaultValue) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
+      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
           internalGetTextRow().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;string, string&gt; text_row = 5;</code>
+     * <code>map&lt;string, bytes&gt; text_row = 5;</code>
      */
 
-    public java.lang.String getTextRowOrThrow(
+    public com.google.protobuf.ByteString getTextRowOrThrow(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
+      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
           internalGetTextRow().getMap();
       if (!map.containsKey(key)) {
         throw new java.lang.IllegalArgumentException();
@@ -618,7 +618,7 @@ public final class Messages {
     public static final int LONG_ROW_FIELD_NUMBER = 7;
     private long longRow_;
     /**
-     * <code>int64 long_row = 7;</code>
+     * <code>sint64 long_row = 7;</code>
      */
     public long getLongRow() {
       return longRow_;
@@ -658,7 +658,7 @@ public final class Messages {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, longField_);
       }
       if (longRow_ != 0L) {
-        output.writeInt64(7, longRow_);
+        output.writeSInt64(7, longRow_);
       }
     }
 
@@ -685,9 +685,9 @@ public final class Messages {
         size += dataSize;
         size += 1 * getFieldsList().size();
       }
-      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.ByteString> entry
            : internalGetTextRow().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
         textRow__ = TextRowDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
@@ -700,7 +700,7 @@ public final class Messages {
       }
       if (longRow_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(7, longRow_);
+          .computeSInt64Size(7, longRow_);
       }
       memoizedSize = size;
       return size;
@@ -1336,8 +1336,8 @@ public final class Messages {
       }
 
       private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> textRow_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+          java.lang.String, com.google.protobuf.ByteString> textRow_;
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
       internalGetTextRow() {
         if (textRow_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
@@ -1345,7 +1345,7 @@ public final class Messages {
         }
         return textRow_;
       }
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
       internalGetMutableTextRow() {
         onChanged();;
         if (textRow_ == null) {
@@ -1362,7 +1362,7 @@ public final class Messages {
         return internalGetTextRow().getMap().size();
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
 
       public boolean containsTextRow(
@@ -1374,36 +1374,36 @@ public final class Messages {
        * Use {@link #getTextRowMap()} instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getTextRow() {
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextRow() {
         return getTextRowMap();
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
 
-      public java.util.Map<java.lang.String, java.lang.String> getTextRowMap() {
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextRowMap() {
         return internalGetTextRow().getMap();
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
 
-      public java.lang.String getTextRowOrDefault(
+      public com.google.protobuf.ByteString getTextRowOrDefault(
           java.lang.String key,
-          java.lang.String defaultValue) {
+          com.google.protobuf.ByteString defaultValue) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
+        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
             internalGetTextRow().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
 
-      public java.lang.String getTextRowOrThrow(
+      public com.google.protobuf.ByteString getTextRowOrThrow(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
+        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
             internalGetTextRow().getMap();
         if (!map.containsKey(key)) {
           throw new java.lang.IllegalArgumentException();
@@ -1417,7 +1417,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
 
       public Builder removeTextRow(
@@ -1431,16 +1431,16 @@ public final class Messages {
        * Use alternate mutation accessors instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String>
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString>
       getMutableTextRow() {
         return internalGetMutableTextRow().getMutableMap();
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
       public Builder putTextRow(
           java.lang.String key,
-          java.lang.String value) {
+          com.google.protobuf.ByteString value) {
         if (key == null) { throw new java.lang.NullPointerException(); }
         if (value == null) { throw new java.lang.NullPointerException(); }
         internalGetMutableTextRow().getMutableMap()
@@ -1448,11 +1448,11 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>map&lt;string, string&gt; text_row = 5;</code>
+       * <code>map&lt;string, bytes&gt; text_row = 5;</code>
        */
 
       public Builder putAllTextRow(
-          java.util.Map<java.lang.String, java.lang.String> values) {
+          java.util.Map<java.lang.String, com.google.protobuf.ByteString> values) {
         internalGetMutableTextRow().getMutableMap()
             .putAll(values);
         return this;
@@ -1529,13 +1529,13 @@ public final class Messages {
 
       private long longRow_ ;
       /**
-       * <code>int64 long_row = 7;</code>
+       * <code>sint64 long_row = 7;</code>
        */
       public long getLongRow() {
         return longRow_;
       }
       /**
-       * <code>int64 long_row = 7;</code>
+       * <code>sint64 long_row = 7;</code>
        */
       public Builder setLongRow(long value) {
         
@@ -1544,7 +1544,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>int64 long_row = 7;</code>
+       * <code>sint64 long_row = 7;</code>
        */
       public Builder clearLongRow() {
         
@@ -1620,11 +1620,21 @@ public final class Messages {
     boolean getIsStatusOk();
 
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>string long_result = 3;</code>
+     */
+    java.lang.String getLongResult();
+    /**
+     * <code>string long_result = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getLongResultBytes();
+
+    /**
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
     int getTextResultCount();
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
     boolean containsTextResult(
         java.lang.String key);
@@ -1632,31 +1642,26 @@ public final class Messages {
      * Use {@link #getTextResultMap()} instead.
      */
     @java.lang.Deprecated
-    java.util.Map<java.lang.String, java.lang.String>
+    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
     getTextResult();
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
-    java.util.Map<java.lang.String, java.lang.String>
+    java.util.Map<java.lang.String, com.google.protobuf.ByteString>
     getTextResultMap();
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
 
-    java.lang.String getTextResultOrDefault(
+    com.google.protobuf.ByteString getTextResultOrDefault(
         java.lang.String key,
-        java.lang.String defaultValue);
+        com.google.protobuf.ByteString defaultValue);
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
 
-    java.lang.String getTextResultOrThrow(
+    com.google.protobuf.ByteString getTextResultOrThrow(
         java.lang.String key);
-
-    /**
-     * <code>int64 long_result = 4;</code>
-     */
-    long getLongResult();
   }
   /**
    * Protobuf type {@code mydb.Response}
@@ -1672,7 +1677,7 @@ public final class Messages {
     private Response() {
       type_ = 0;
       isStatusOk_ = false;
-      longResult_ = 0L;
+      longResult_ = "";
     }
 
     @java.lang.Override
@@ -1712,21 +1717,22 @@ public final class Messages {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              longResult_ = s;
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 textResult_ = com.google.protobuf.MapField.newMapField(
                     TextResultDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
-              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
               textResult__ = input.readMessage(
                   TextResultDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               textResult_.getMutableMap().put(
                   textResult__.getKey(), textResult__.getValue());
-              break;
-            }
-            case 32: {
-
-              longResult_ = input.readInt64();
               break;
             }
           }
@@ -1749,7 +1755,7 @@ public final class Messages {
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 3:
+        case 4:
           return internalGetTextResult();
         default:
           throw new RuntimeException(
@@ -1896,21 +1902,55 @@ public final class Messages {
       return isStatusOk_;
     }
 
-    public static final int TEXT_RESULT_FIELD_NUMBER = 3;
+    public static final int LONG_RESULT_FIELD_NUMBER = 3;
+    private volatile java.lang.Object longResult_;
+    /**
+     * <code>string long_result = 3;</code>
+     */
+    public java.lang.String getLongResult() {
+      java.lang.Object ref = longResult_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        longResult_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string long_result = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getLongResultBytes() {
+      java.lang.Object ref = longResult_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        longResult_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TEXT_RESULT_FIELD_NUMBER = 4;
     private static final class TextResultDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
-          java.lang.String, java.lang.String> defaultEntry =
+          java.lang.String, com.google.protobuf.ByteString> defaultEntry =
               com.google.protobuf.MapEntry
-              .<java.lang.String, java.lang.String>newDefaultInstance(
+              .<java.lang.String, com.google.protobuf.ByteString>newDefaultInstance(
                   com.yahoo.ycsb.db.Messages.internal_static_mydb_Response_TextResultEntry_descriptor, 
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "");
+                  com.google.protobuf.WireFormat.FieldType.BYTES,
+                  com.google.protobuf.ByteString.EMPTY);
     }
     private com.google.protobuf.MapField<
-        java.lang.String, java.lang.String> textResult_;
-    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+        java.lang.String, com.google.protobuf.ByteString> textResult_;
+    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
     internalGetTextResult() {
       if (textResult_ == null) {
         return com.google.protobuf.MapField.emptyMapField(
@@ -1923,7 +1963,7 @@ public final class Messages {
       return internalGetTextResult().getMap().size();
     }
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
 
     public boolean containsTextResult(
@@ -1935,50 +1975,41 @@ public final class Messages {
      * Use {@link #getTextResultMap()} instead.
      */
     @java.lang.Deprecated
-    public java.util.Map<java.lang.String, java.lang.String> getTextResult() {
+    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextResult() {
       return getTextResultMap();
     }
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
 
-    public java.util.Map<java.lang.String, java.lang.String> getTextResultMap() {
+    public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextResultMap() {
       return internalGetTextResult().getMap();
     }
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
 
-    public java.lang.String getTextResultOrDefault(
+    public com.google.protobuf.ByteString getTextResultOrDefault(
         java.lang.String key,
-        java.lang.String defaultValue) {
+        com.google.protobuf.ByteString defaultValue) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
+      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
           internalGetTextResult().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;string, string&gt; text_result = 3;</code>
+     * <code>map&lt;string, bytes&gt; text_result = 4;</code>
      */
 
-    public java.lang.String getTextResultOrThrow(
+    public com.google.protobuf.ByteString getTextResultOrThrow(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, java.lang.String> map =
+      java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
           internalGetTextResult().getMap();
       if (!map.containsKey(key)) {
         throw new java.lang.IllegalArgumentException();
       }
       return map.get(key);
-    }
-
-    public static final int LONG_RESULT_FIELD_NUMBER = 4;
-    private long longResult_;
-    /**
-     * <code>int64 long_result = 4;</code>
-     */
-    public long getLongResult() {
-      return longResult_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1999,15 +2030,15 @@ public final class Messages {
       if (isStatusOk_ != false) {
         output.writeBool(2, isStatusOk_);
       }
+      if (!getLongResultBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, longResult_);
+      }
       com.google.protobuf.GeneratedMessageV3
         .serializeStringMapTo(
           output,
           internalGetTextResult(),
           TextResultDefaultEntryHolder.defaultEntry,
-          3);
-      if (longResult_ != 0L) {
-        output.writeInt64(4, longResult_);
-      }
+          4);
     }
 
     public int getSerializedSize() {
@@ -2023,19 +2054,18 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, isStatusOk_);
       }
-      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+      if (!getLongResultBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, longResult_);
+      }
+      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.ByteString> entry
            : internalGetTextResult().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.ByteString>
         textResult__ = TextResultDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, textResult__);
-      }
-      if (longResult_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, longResult_);
+            .computeMessageSize(4, textResult__);
       }
       memoizedSize = size;
       return size;
@@ -2056,10 +2086,10 @@ public final class Messages {
       result = result && type_ == other.type_;
       result = result && (getIsStatusOk()
           == other.getIsStatusOk());
+      result = result && getLongResult()
+          .equals(other.getLongResult());
       result = result && internalGetTextResult().equals(
           other.internalGetTextResult());
-      result = result && (getLongResult()
-          == other.getLongResult());
       return result;
     }
 
@@ -2075,13 +2105,12 @@ public final class Messages {
       hash = (37 * hash) + ISSTATUSOK_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsStatusOk());
+      hash = (37 * hash) + LONG_RESULT_FIELD_NUMBER;
+      hash = (53 * hash) + getLongResult().hashCode();
       if (!internalGetTextResult().getMap().isEmpty()) {
         hash = (37 * hash) + TEXT_RESULT_FIELD_NUMBER;
         hash = (53 * hash) + internalGetTextResult().hashCode();
       }
-      hash = (37 * hash) + LONG_RESULT_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getLongResult());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2191,7 +2220,7 @@ public final class Messages {
       protected com.google.protobuf.MapField internalGetMapField(
           int number) {
         switch (number) {
-          case 3:
+          case 4:
             return internalGetTextResult();
           default:
             throw new RuntimeException(
@@ -2202,7 +2231,7 @@ public final class Messages {
       protected com.google.protobuf.MapField internalGetMutableMapField(
           int number) {
         switch (number) {
-          case 3:
+          case 4:
             return internalGetMutableTextResult();
           default:
             throw new RuntimeException(
@@ -2237,9 +2266,9 @@ public final class Messages {
 
         isStatusOk_ = false;
 
-        internalGetMutableTextResult().clear();
-        longResult_ = 0L;
+        longResult_ = "";
 
+        internalGetMutableTextResult().clear();
         return this;
       }
 
@@ -2266,9 +2295,9 @@ public final class Messages {
         int to_bitField0_ = 0;
         result.type_ = type_;
         result.isStatusOk_ = isStatusOk_;
+        result.longResult_ = longResult_;
         result.textResult_ = internalGetTextResult();
         result.textResult_.makeImmutable();
-        result.longResult_ = longResult_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2317,11 +2346,12 @@ public final class Messages {
         if (other.getIsStatusOk() != false) {
           setIsStatusOk(other.getIsStatusOk());
         }
+        if (!other.getLongResult().isEmpty()) {
+          longResult_ = other.longResult_;
+          onChanged();
+        }
         internalGetMutableTextResult().mergeFrom(
             other.internalGetTextResult());
-        if (other.getLongResult() != 0L) {
-          setLongResult(other.getLongResult());
-        }
         onChanged();
         return this;
       }
@@ -2419,9 +2449,78 @@ public final class Messages {
         return this;
       }
 
+      private java.lang.Object longResult_ = "";
+      /**
+       * <code>string long_result = 3;</code>
+       */
+      public java.lang.String getLongResult() {
+        java.lang.Object ref = longResult_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          longResult_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string long_result = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getLongResultBytes() {
+        java.lang.Object ref = longResult_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          longResult_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string long_result = 3;</code>
+       */
+      public Builder setLongResult(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        longResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string long_result = 3;</code>
+       */
+      public Builder clearLongResult() {
+        
+        longResult_ = getDefaultInstance().getLongResult();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string long_result = 3;</code>
+       */
+      public Builder setLongResultBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        longResult_ = value;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> textResult_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+          java.lang.String, com.google.protobuf.ByteString> textResult_;
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
       internalGetTextResult() {
         if (textResult_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
@@ -2429,7 +2528,7 @@ public final class Messages {
         }
         return textResult_;
       }
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.ByteString>
       internalGetMutableTextResult() {
         onChanged();;
         if (textResult_ == null) {
@@ -2446,7 +2545,7 @@ public final class Messages {
         return internalGetTextResult().getMap().size();
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
 
       public boolean containsTextResult(
@@ -2458,36 +2557,36 @@ public final class Messages {
        * Use {@link #getTextResultMap()} instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getTextResult() {
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextResult() {
         return getTextResultMap();
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
 
-      public java.util.Map<java.lang.String, java.lang.String> getTextResultMap() {
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString> getTextResultMap() {
         return internalGetTextResult().getMap();
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
 
-      public java.lang.String getTextResultOrDefault(
+      public com.google.protobuf.ByteString getTextResultOrDefault(
           java.lang.String key,
-          java.lang.String defaultValue) {
+          com.google.protobuf.ByteString defaultValue) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
+        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
             internalGetTextResult().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
 
-      public java.lang.String getTextResultOrThrow(
+      public com.google.protobuf.ByteString getTextResultOrThrow(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, java.lang.String> map =
+        java.util.Map<java.lang.String, com.google.protobuf.ByteString> map =
             internalGetTextResult().getMap();
         if (!map.containsKey(key)) {
           throw new java.lang.IllegalArgumentException();
@@ -2501,7 +2600,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
 
       public Builder removeTextResult(
@@ -2515,16 +2614,16 @@ public final class Messages {
        * Use alternate mutation accessors instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String>
+      public java.util.Map<java.lang.String, com.google.protobuf.ByteString>
       getMutableTextResult() {
         return internalGetMutableTextResult().getMutableMap();
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
       public Builder putTextResult(
           java.lang.String key,
-          java.lang.String value) {
+          com.google.protobuf.ByteString value) {
         if (key == null) { throw new java.lang.NullPointerException(); }
         if (value == null) { throw new java.lang.NullPointerException(); }
         internalGetMutableTextResult().getMutableMap()
@@ -2532,39 +2631,13 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>map&lt;string, string&gt; text_result = 3;</code>
+       * <code>map&lt;string, bytes&gt; text_result = 4;</code>
        */
 
       public Builder putAllTextResult(
-          java.util.Map<java.lang.String, java.lang.String> values) {
+          java.util.Map<java.lang.String, com.google.protobuf.ByteString> values) {
         internalGetMutableTextResult().getMutableMap()
             .putAll(values);
-        return this;
-      }
-
-      private long longResult_ ;
-      /**
-       * <code>int64 long_result = 4;</code>
-       */
-      public long getLongResult() {
-        return longResult_;
-      }
-      /**
-       * <code>int64 long_result = 4;</code>
-       */
-      public Builder setLongResult(long value) {
-        
-        longResult_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int64 long_result = 4;</code>
-       */
-      public Builder clearLongResult() {
-        
-        longResult_ = 0L;
-        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -2650,16 +2723,16 @@ public final class Messages {
       "_TYPE\022\r\n\005table\030\002 \001(\t\022\013\n\003key\030\003 \001(\t\022\016\n\006fie" +
       "lds\030\004 \003(\t\022,\n\010text_row\030\005 \003(\0132\032.mydb.Reque" +
       "st.TextRowEntry\022\022\n\nlong_field\030\006 \001(\t\022\020\n\010l" +
-      "ong_row\030\007 \001(\003\032.\n\014TextRowEntry\022\013\n\003key\030\001 \001" +
-      "(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"|\n\014REQUEST_TYPE\022\017\n" +
+      "ong_row\030\007 \001(\022\032.\n\014TextRowEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"|\n\014REQUEST_TYPE\022\017\n" +
       "\013INSERT_TEXT\020\000\022\017\n\013INSERT_LONG\020\001\022\r\n\tREAD_" +
       "TEXT\020\002\022\r\n\tREAD_LONG\020\003\022\017\n\013UPDATE_TEXT\020\004\022\017" +
       "\n\013UPDATE_LONG\020\005\022\n\n\006DELETE\020\006\"\202\002\n\010Response",
       "\022*\n\004type\030\001 \001(\0162\034.mydb.Response.RESPONSE_" +
-      "TYPE\022\022\n\nisStatusOk\030\002 \001(\010\0223\n\013text_result\030" +
-      "\003 \003(\0132\036.mydb.Response.TextResultEntry\022\023\n" +
-      "\013long_result\030\004 \001(\003\0321\n\017TextResultEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"9\n\rRESPONS" +
+      "TYPE\022\022\n\nisStatusOk\030\002 \001(\010\022\023\n\013long_result\030" +
+      "\003 \001(\t\0223\n\013text_result\030\004 \003(\0132\036.mydb.Respon" +
+      "se.TextResultEntry\0321\n\017TextResultEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"9\n\rRESPONS" +
       "E_TYPE\022\r\n\tREAD_TEXT\020\000\022\r\n\tREAD_LONG\020\001\022\n\n\006" +
       "STATUS\020\002B\035\n\021com.yahoo.ycsb.dbB\010Messagesb" +
       "\006proto3"
@@ -2693,7 +2766,7 @@ public final class Messages {
     internal_static_mydb_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mydb_Response_descriptor,
-        new java.lang.String[] { "Type", "IsStatusOk", "TextResult", "LongResult", });
+        new java.lang.String[] { "Type", "IsStatusOk", "LongResult", "TextResult", });
     internal_static_mydb_Response_TextResultEntry_descriptor =
       internal_static_mydb_Response_descriptor.getNestedTypes().get(0);
     internal_static_mydb_Response_TextResultEntry_fieldAccessorTable = new

@@ -4,6 +4,7 @@ import com.yahoo.ycsb.*;
 import com.yahoo.ycsb.generator.CounterGenerator;
 import com.yahoo.ycsb.generator.NumberGenerator;
 import com.yahoo.ycsb.generator.ScrambledZipfianGenerator;
+import com.yahoo.ycsb.generator.UniformIntegerGenerator;
 import com.yahoo.ycsb.measurements.Measurements;
 
 import java.util.*;
@@ -19,17 +20,14 @@ public class TransactionalWorkload extends Workload {
   /**
    * The names of the database tables to run queries against.
    */
-  public static final String TABLE1_NAME_PROPERTY = "table1";
-  public static final String TABLE2_NAME_PROPERTY = "table2";
+  public static final String TABLE_NAME_PROPERTY = "table";
 
   /**
    * The default names of the database tables to run queries against.
    */
-  public static final String TABLE1_NAME_PROPERTY_DEFAULT = "usertable1";
-  public static final String TABLE2_NAME_PROPERTY_DEFAULT = "usertable2";
+  public static final String TABLE_NAME_PROPERTY_DEFAULT = "usertable1";
 
-  protected String table1;
-  protected String table2;
+  protected String table;
 
   /**
    * List of field names of the database tables.
@@ -66,8 +64,7 @@ public class TransactionalWorkload extends Workload {
 
   @Override
   public void init(Properties p) throws WorkloadException {
-    table1 = p.getProperty(TABLE1_NAME_PROPERTY, TABLE1_NAME_PROPERTY_DEFAULT);
-    table2 = p.getProperty(TABLE2_NAME_PROPERTY, TABLE2_NAME_PROPERTY_DEFAULT);
+    table = p.getProperty(TABLE_NAME_PROPERTY, TABLE_NAME_PROPERTY_DEFAULT);
 
     fieldnames = new HashSet<>();
     fieldnames.add(FIELDNAME);
@@ -82,7 +79,7 @@ public class TransactionalWorkload extends Workload {
     int insertCount =
         Integer.parseInt(p.getProperty(INSERT_COUNT_PROPERTY, String.valueOf(recordcount - insertStart)));
     keysequence = new CounterGenerator(insertStart);
-    keychooser = new ScrambledZipfianGenerator(insertStart, insertStart + insertCount);
+    keychooser = new UniformIntegerGenerator(insertStart, insertStart + insertCount);
 
     insertionRetryLimit = Integer.parseInt(p.getProperty(
         INSERTION_RETRY_LIMIT, INSERTION_RETRY_LIMIT_DEFAULT));
@@ -151,7 +148,7 @@ public class TransactionalWorkload extends Workload {
   public boolean doInsert(DB db, Object threadstate) {
     int keynum = keysequence.nextValue().intValue();
     String dbkey = buildKeyName(keynum);
-    return tableInsert(table1, dbkey, db) && tableInsert(table2, dbkey, db);
+    return tableInsert(table, dbkey, db);
   }
 
   @Override
@@ -164,16 +161,20 @@ public class TransactionalWorkload extends Workload {
       db.startTransaction(keynamed);
       boolean status = true;
       for (int i = 0; i < batchSize; i++) {
-        // choose a random key
-        int keynum = keychooser.nextValue().intValue();
-        String keyname = buildKeyName(keynum);
+        // choose random keys
+        int keynum1 = keychooser.nextValue().intValue();
+        String keyname1 = buildKeyName(keynum1);
+
+        int keynum2 = keychooser.nextValue().intValue();
+        String keyname2 = buildKeyName(keynum2);
+
         HashMap<String, ByteIterator> cells1 = new HashMap<>();
         cells1.put(FIELDNAME, new LongByteIterator(0));
         HashMap<String, ByteIterator> cells2 = new HashMap<>();
         cells2.put(FIELDNAME, new LongByteIterator(0));
 
-        Status str1 = db.read(table1, keyname, fieldnames, cells1);
-        Status str2 = db.read(table2, keyname, fieldnames, cells2);
+        Status str1 = db.read(table, keyname1, fieldnames, cells1);
+        Status str2 = db.read(table, keyname2, fieldnames, cells2);
 
         long balance1 = ((LongByteIterator) cells1.get(FIELDNAME)).getValue();
         long balance2 = ((LongByteIterator) cells2.get(FIELDNAME)).getValue();
@@ -181,8 +182,8 @@ public class TransactionalWorkload extends Workload {
         cells1.put(FIELDNAME, new LongByteIterator(balance1 + change));
         cells2.put(FIELDNAME, new LongByteIterator(balance2 - change));
 
-        Status stu1 = db.update(table1, keyname, cells1);
-        Status stu2 = db.update(table2, keyname, cells1);
+        Status stu1 = db.update(table, keyname1, cells1);
+        Status stu2 = db.update(table, keyname2, cells1);
         if (str1 != Status.OK || str2 != Status.OK || stu1 != Status.OK || stu2 != Status.OK) {
           status = false;
         }

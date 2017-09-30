@@ -2,10 +2,12 @@ package com.yahoo.ycsb.db;
 
 import com.etsy.net.JUDS;
 import com.etsy.net.UnixDomainSocketClient;
+import com.google.protobuf.ByteString;
 import com.yahoo.ycsb.*;
 import com.yahoo.ycsb.workloads.TransactionalWorkload;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class MyDBClient extends DB {
@@ -17,7 +19,7 @@ public class MyDBClient extends DB {
 
   @Override
   public void init() {
-    inp = new byte[128];
+    inp = new byte[512];
     try {
       socket = new UnixDomainSocketClient("/tmp/mydbsocket", JUDS.SOCK_STREAM);
       out = socket.getOutputStream();
@@ -30,6 +32,7 @@ public class MyDBClient extends DB {
 
   @Override
   public Status read(String table, String key, Set<String> fields, HashMap<String, ByteIterator> result) {
+    inp = new byte[512];
     if (!result.isEmpty()) {
       Messages.Request.Builder b = Messages.Request.newBuilder()
           .setType(Messages.Request.REQUEST_TYPE.READ_LONG)
@@ -41,19 +44,17 @@ public class MyDBClient extends DB {
       Messages.Request m = b.build();
       try {
         out.write(m.toByteArray());
-        System.out.println("message sent");
       } catch (IOException e) {
         System.err.println("error sending message" + e);
       }
       try {
-        System.out.println("waiting for response");
         int len = in.read(inp);
         Messages.Response response = Messages.Response.parseFrom(new String(Arrays.copyOfRange(inp, 0, len)).getBytes());
-        System.out.println("response read");
+
         if (response.getType() == Messages.Response.RESPONSE_TYPE.STATUS) {
           return Status.ERROR;
         } else {
-          result.put(TransactionalWorkload.FIELDNAME, new LongByteIterator(response.getLongResult()));
+          result.put(TransactionalWorkload.FIELDNAME, new LongByteIterator(Long.valueOf(response.getLongResult())));
           return Status.OK;
         }
       } catch (IOException e) {
@@ -71,22 +72,18 @@ public class MyDBClient extends DB {
       Messages.Request m = b.build();
       try {
         out.write(m.toByteArray());
-        System.out.println("message sent");
       } catch (IOException e) {
         System.err.println("error sending message" + e);
       }
       try {
-        System.out.println("waiting for response");
         int len = in.read(inp);
         Messages.Response response = Messages.Response.parseFrom(new String(Arrays.copyOfRange(inp, 0, len)).getBytes());
-        System.out.println("response read");
         if (response.getType() == Messages.Response.RESPONSE_TYPE.STATUS) {
-          System.out.println("error");
           return Status.ERROR;
         } else {
-          Map<String, String> res = response.getTextResultMap();
+          Map<String, ByteString> res = response.getTextResultMap();
           for (String k : res.keySet()) {
-            result.put(k, new StringByteIterator(res.get(k)));
+            result.put(k, new StringByteIterator(res.get(k).toString(Charset.defaultCharset())));
           }
           return Status.OK;
         }
@@ -105,6 +102,7 @@ public class MyDBClient extends DB {
 
   @Override
   public Status update(String table, String key, HashMap<String, ByteIterator> values) {
+    inp = new byte[512];
     if (values.values().iterator().next() instanceof LongByteIterator) {
       String field  = values.keySet().iterator().next();
       long value = ((LongByteIterator) values.get(field)).getValue();
@@ -118,15 +116,14 @@ public class MyDBClient extends DB {
 
       try {
         out.write(m.toByteArray());
-        System.out.println("message sent");
       } catch (IOException e) {
         System.err.println("error sending message" + e);
       }
       return processStatus();
     } else {
-      HashMap<String, String> row = new HashMap<>();
+      HashMap<String, ByteString> row = new HashMap<>();
       for (String field : values.keySet()) {
-        row.put(field, values.get(field).toString());
+        row.put(field, ByteString.copyFrom(values.get(field).toArray()));
       }
       Messages.Request m = Messages.Request.newBuilder()
           .setTable(table)
@@ -137,7 +134,6 @@ public class MyDBClient extends DB {
 
       try {
         out.write(m.toByteArray());
-        System.out.println("message sent");
       } catch (IOException e) {
         System.err.println("error sending message" + e);
       }
@@ -146,9 +142,11 @@ public class MyDBClient extends DB {
   }
   @Override
   public Status insert(String table, String key, HashMap<String, ByteIterator> values) {
+    inp = new byte[512];
     if (values.values().iterator().next() instanceof LongByteIterator) {
       String field = values.keySet().iterator().next();
       long value = ((LongByteIterator) values.get(field)).getValue();
+
       Messages.Request m = Messages.Request.newBuilder()
           .setTable(table)
           .setType(Messages.Request.REQUEST_TYPE.INSERT_LONG)
@@ -159,15 +157,14 @@ public class MyDBClient extends DB {
 
       try {
         out.write(m.toByteArray());
-        System.out.println("message sent");
       } catch (IOException e) {
         System.err.println("error sending message" + e);
       }
       return processStatus();
     } else {
-      HashMap<String, String> row = new HashMap<>();
+      HashMap<String, ByteString> row = new HashMap<>();
       for (String field : values.keySet()) {
-        row.put(field, values.get(field).toString());
+        row.put(field, ByteString.copyFrom(values.get(field).toArray()));
       }
       Messages.Request request = Messages.Request.newBuilder()
           .setTable(table)
@@ -178,7 +175,6 @@ public class MyDBClient extends DB {
 
       try {
         out.write(request.toByteArray());
-        System.out.println("message sent");
       } catch (IOException e) {
         System.err.println("error sending message" + e);
       }
@@ -189,6 +185,7 @@ public class MyDBClient extends DB {
 
   @Override
   public Status delete(String table, String key) {
+    inp = new byte[512];
     Messages.Request m = Messages.Request.newBuilder()
         .setTable(table)
         .setType(Messages.Request.REQUEST_TYPE.DELETE)
@@ -197,7 +194,6 @@ public class MyDBClient extends DB {
 
     try {
       out.write(m.toByteArray());
-      System.out.println("message sent");
     } catch (IOException e) {
       System.err.println("error sending message" + e);
     }
@@ -206,9 +202,7 @@ public class MyDBClient extends DB {
 
   private Status processStatus() {
     try {
-      System.out.println("waiting for response");
       int len = in.read(inp);
-      System.out.println("response read");
       Messages.Response response = Messages.Response.parseFrom(new String(Arrays.copyOfRange(inp, 0, len)).getBytes());
       if (response.getType() != Messages.Response.RESPONSE_TYPE.STATUS) {
         System.err.println("Wrong response type, should be status message");
