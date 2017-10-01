@@ -18,6 +18,7 @@
 package com.yahoo.ycsb;
 
 import com.yahoo.ycsb.workloads.CoreWorkload;
+import com.yahoo.ycsb.workloads.TransactionalWorkload;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -33,6 +34,7 @@ public final class CommandLine {
     //not used
   }
 
+  private static boolean useLong = false;
   public static final String DEFAULT_DB = "com.yahoo.ycsb.BasicDB";
 
   public static void usageMessage() {
@@ -149,11 +151,46 @@ public final class CommandLine {
         handleInsert(tokens, table, db);
       } else if (tokens[0].compareTo("delete") == 0) {
         handleDelete(tokens, table, db);
+      } else if (tokens[0].compareTo("type") == 0) {
+        useLong = !useLong;
+      } else if (tokens[0].compareTo("start") == 0) {
+        handleStartTransaction(tokens, table, db);
+      }else if (tokens[0].compareTo("commit") == 0) {
+        handleCommitTransaction(tokens, table, db);
+      } else if (tokens[0].compareTo("abort") == 0) {
+        handleAbortTransaction(tokens, table, db);
       } else {
         System.out.println("Error: unknown command \"" + tokens[0] + "\"");
       }
 
       System.out.println((System.currentTimeMillis() - st) + " ms");
+    }
+  }
+
+  private static void handleAbortTransaction(String[] tokens, String table, DB db) {
+    try {
+      Status ret = db.abort("");
+      System.out.println("Return result: " + ret.getName());
+    } catch (DBException e) {
+      System.err.println("Catch DB exception");
+    }
+  }
+
+  private static void handleCommitTransaction(String[] tokens, String table, DB db) {
+    try {
+      Status ret = db.commit("");
+      System.out.println("Return result: " + ret.getName());
+    } catch (DBException e) {
+      System.err.println("Catch DB exception");
+    }
+  }
+
+  private static void handleStartTransaction(String[] tokens, String table, DB db) {
+    try {
+      Status ret = db.startTransaction("");
+      System.out.println("Return result: " + ret.getName());
+    } catch (DBException e) {
+      System.err.println("Catch DB exception");
     }
   }
 
@@ -254,15 +291,27 @@ public final class CommandLine {
     if (tokens.length < 3) {
       System.out.println("Error: syntax is \"insert keyname name1=value1 [name2=value2 ...]\"");
     } else {
-      HashMap<String, ByteIterator> values = new HashMap<>();
+      if (useLong) {
+        HashMap<String, ByteIterator> values = new HashMap<>();
 
-      for (int i = 2; i < tokens.length; i++) {
-        String[] nv = tokens[i].split("=");
-        values.put(nv[0], new StringByteIterator(nv[1]));
+        for (int i = 2; i < tokens.length; i++) {
+          String[] nv = tokens[i].split("=");
+          values.put(nv[0], new LongByteIterator(Long.parseLong(nv[1])));
+        }
+
+        Status ret = db.insert(table, tokens[1], values);
+        System.out.println("Result: " + ret.getName());
+      } else {
+        HashMap<String, ByteIterator> values = new HashMap<>();
+
+        for (int i = 2; i < tokens.length; i++) {
+          String[] nv = tokens[i].split("=");
+          values.put(nv[0], new StringByteIterator(nv[1]));
+        }
+
+        Status ret = db.insert(table, tokens[1], values);
+        System.out.println("Result: " + ret.getName());
       }
-
-      Status ret = db.insert(table, tokens[1], values);
-      System.out.println("Result: " + ret.getName());
     }
   }
 
@@ -270,15 +319,27 @@ public final class CommandLine {
     if (tokens.length < 3) {
       System.out.println("Error: syntax is \"update keyname name1=value1 [name2=value2 ...]\"");
     } else {
-      HashMap<String, ByteIterator> values = new HashMap<>();
+      if (useLong) {
+        HashMap<String, ByteIterator> values = new HashMap<>();
 
-      for (int i = 2; i < tokens.length; i++) {
-        String[] nv = tokens[i].split("=");
-        values.put(nv[0], new StringByteIterator(nv[1]));
+        for (int i = 2; i < tokens.length; i++) {
+          String[] nv = tokens[i].split("=");
+          values.put(nv[0], new LongByteIterator(Long.parseLong(nv[1])));
+        }
+
+        Status ret = db.update(table, tokens[1], values);
+        System.out.println("Result: " + ret.getName());
+      } else {
+        HashMap<String, ByteIterator> values = new HashMap<>();
+
+        for (int i = 2; i < tokens.length; i++) {
+          String[] nv = tokens[i].split("=");
+          values.put(nv[0], new StringByteIterator(nv[1]));
+        }
+
+        Status ret = db.update(table, tokens[1], values);
+        System.out.println("Result: " + ret.getName());
       }
-
-      Status ret = db.update(table, tokens[1], values);
-      System.out.println("Result: " + ret.getName());
     }
   }
 
@@ -325,7 +386,11 @@ public final class CommandLine {
         fields.addAll(Arrays.asList(tokens).subList(2, tokens.length));
       }
 
+
       HashMap<String, ByteIterator> result = new HashMap<>();
+      if (useLong) {
+        result.put(TransactionalWorkload.FIELDNAME, new LongByteIterator(0));
+      }
       Status ret = db.read(table, tokens[1], fields, result);
       System.out.println("Return code: " + ret.getName());
       for (Map.Entry<String, ByteIterator> ent : result.entrySet()) {

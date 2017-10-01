@@ -79,19 +79,22 @@ public abstract class DB {
   /**
    * Start transaction.
    */
-  public void startTransaction(String key) throws DBException {
+  public Status startTransaction(String key) throws DBException {
+    return Status.NOT_IMPLEMENTED;
   }
 
   /**
    * Commit the transaction.
    */
-  public void commit(String key) throws DBException {
+  public Status commit(String key) throws DBException {
+    return Status.NOT_IMPLEMENTED;
   }
 
   /**
    * Abort the transaction.
    */
-  public void abort(String key) throws DBException {
+  public Status abort(String key) throws DBException {
+    return Status.NOT_IMPLEMENTED;
   }
 
   /**

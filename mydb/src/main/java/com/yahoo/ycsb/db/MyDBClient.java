@@ -200,6 +200,51 @@ public class MyDBClient extends DB {
     return processStatus();
   }
 
+  @Override
+  public Status startTransaction(String key) throws DBException {
+    Messages.Request m = Messages.Request.newBuilder()
+        .setType(Messages.Request.REQUEST_TYPE.START_TRANSACTION)
+        .setKey(key)
+        .build();
+
+    try {
+      out.write(m.toByteArray());
+    } catch (IOException e) {
+      System.err.println("error sending message" + e);
+    }
+    return processStatus();
+  }
+
+  @Override
+  public Status commit(String key) throws DBException {
+    Messages.Request m = Messages.Request.newBuilder()
+        .setType(Messages.Request.REQUEST_TYPE.COMMIT)
+        .setKey(key)
+        .build();
+
+    try {
+      out.write(m.toByteArray());
+    } catch (IOException e) {
+      System.err.println("error sending message" + e);
+    }
+    return processStatus();
+  }
+
+  @Override
+  public Status abort(String key) throws DBException {
+    Messages.Request m = Messages.Request.newBuilder()
+        .setType(Messages.Request.REQUEST_TYPE.ABORT)
+        .setKey(key)
+        .build();
+
+    try {
+      out.write(m.toByteArray());
+    } catch (IOException e) {
+      System.err.println("error sending message" + e);
+    }
+    return processStatus();
+  }
+
   private Status processStatus() {
     try {
       int len = in.read(inp);

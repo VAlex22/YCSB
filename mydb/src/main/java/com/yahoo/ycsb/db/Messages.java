@@ -281,6 +281,18 @@ public final class Messages {
        * <code>DELETE = 6;</code>
        */
       DELETE(6),
+      /**
+       * <code>START_TRANSACTION = 7;</code>
+       */
+      START_TRANSACTION(7),
+      /**
+       * <code>COMMIT = 8;</code>
+       */
+      COMMIT(8),
+      /**
+       * <code>ABORT = 9;</code>
+       */
+      ABORT(9),
       UNRECOGNIZED(-1),
       ;
 
@@ -312,6 +324,18 @@ public final class Messages {
        * <code>DELETE = 6;</code>
        */
       public static final int DELETE_VALUE = 6;
+      /**
+       * <code>START_TRANSACTION = 7;</code>
+       */
+      public static final int START_TRANSACTION_VALUE = 7;
+      /**
+       * <code>COMMIT = 8;</code>
+       */
+      public static final int COMMIT_VALUE = 8;
+      /**
+       * <code>ABORT = 9;</code>
+       */
+      public static final int ABORT_VALUE = 9;
 
 
       public final int getNumber() {
@@ -339,6 +363,9 @@ public final class Messages {
           case 4: return UPDATE_TEXT;
           case 5: return UPDATE_LONG;
           case 6: return DELETE;
+          case 7: return START_TRANSACTION;
+          case 8: return COMMIT;
+          case 9: return ABORT;
           default: return null;
         }
       }
@@ -2718,24 +2745,25 @@ public final class Messages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\027protobuf/messages.proto\022\004mydb\"\341\002\n\007Requ" +
+      "\n\027protobuf/messages.proto\022\004mydb\"\220\003\n\007Requ" +
       "est\022(\n\004type\030\001 \001(\0162\032.mydb.Request.REQUEST" +
       "_TYPE\022\r\n\005table\030\002 \001(\t\022\013\n\003key\030\003 \001(\t\022\016\n\006fie" +
       "lds\030\004 \003(\t\022,\n\010text_row\030\005 \003(\0132\032.mydb.Reque" +
       "st.TextRowEntry\022\022\n\nlong_field\030\006 \001(\t\022\020\n\010l" +
       "ong_row\030\007 \001(\022\032.\n\014TextRowEntry\022\013\n\003key\030\001 \001" +
-      "(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"|\n\014REQUEST_TYPE\022\017\n" +
-      "\013INSERT_TEXT\020\000\022\017\n\013INSERT_LONG\020\001\022\r\n\tREAD_" +
-      "TEXT\020\002\022\r\n\tREAD_LONG\020\003\022\017\n\013UPDATE_TEXT\020\004\022\017" +
-      "\n\013UPDATE_LONG\020\005\022\n\n\006DELETE\020\006\"\202\002\n\010Response",
-      "\022*\n\004type\030\001 \001(\0162\034.mydb.Response.RESPONSE_" +
-      "TYPE\022\022\n\nisStatusOk\030\002 \001(\010\022\023\n\013long_result\030" +
-      "\003 \001(\t\0223\n\013text_result\030\004 \003(\0132\036.mydb.Respon" +
-      "se.TextResultEntry\0321\n\017TextResultEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"9\n\rRESPONS" +
-      "E_TYPE\022\r\n\tREAD_TEXT\020\000\022\r\n\tREAD_LONG\020\001\022\n\n\006" +
-      "STATUS\020\002B\035\n\021com.yahoo.ycsb.dbB\010Messagesb" +
-      "\006proto3"
+      "(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"\252\001\n\014REQUEST_TYPE\022\017" +
+      "\n\013INSERT_TEXT\020\000\022\017\n\013INSERT_LONG\020\001\022\r\n\tREAD" +
+      "_TEXT\020\002\022\r\n\tREAD_LONG\020\003\022\017\n\013UPDATE_TEXT\020\004\022" +
+      "\017\n\013UPDATE_LONG\020\005\022\n\n\006DELETE\020\006\022\025\n\021START_TR",
+      "ANSACTION\020\007\022\n\n\006COMMIT\020\010\022\t\n\005ABORT\020\t\"\202\002\n\010R" +
+      "esponse\022*\n\004type\030\001 \001(\0162\034.mydb.Response.RE" +
+      "SPONSE_TYPE\022\022\n\nisStatusOk\030\002 \001(\010\022\023\n\013long_" +
+      "result\030\003 \001(\t\0223\n\013text_result\030\004 \003(\0132\036.mydb" +
+      ".Response.TextResultEntry\0321\n\017TextResultE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\014:\0028\001\"9\n\r" +
+      "RESPONSE_TYPE\022\r\n\tREAD_TEXT\020\000\022\r\n\tREAD_LON" +
+      "G\020\001\022\n\n\006STATUS\020\002B\035\n\021com.yahoo.ycsb.dbB\010Me" +
+      "ssagesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

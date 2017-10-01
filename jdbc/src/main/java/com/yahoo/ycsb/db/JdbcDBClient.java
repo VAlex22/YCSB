@@ -309,33 +309,36 @@ public class JdbcDBClient extends DB {
   }
 
   @Override
-  public void startTransaction(String key) throws DBException {
+  public Status startTransaction(String key) throws DBException {
     try {
       getShardConnectionByKey(key).setAutoCommit(false);
     } catch (SQLException e) {
       System.err.println("Error in starting transaction " + ": " + e);
       throw new DBException(e);
     }
+    return Status.OK;
   }
 
   @Override
-  public void commit(String key) throws DBException {
+  public Status commit(String key) throws DBException {
     try {
       getShardConnectionByKey(key).commit();
     } catch (SQLException e) {
       System.err.println("Error while commiting transaction " + ": " + e);
       throw new DBException(e);
     }
+    return Status.OK;
   }
 
   @Override
-  public void abort(String key) throws DBException {
+  public Status abort(String key) throws DBException {
     try {
       getShardConnectionByKey(key).rollback();
     } catch (SQLException e) {
       System.err.println("Error while rollback transaction " + ": " + e);
       throw new DBException(e);
     }
+    return Status.OK;
   }
 
   @Override

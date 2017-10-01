@@ -125,35 +125,37 @@ public class DBWrapper extends DB {
   /**
    * Start transaction.
    */
-  public void startTransaction(String key) throws DBException {
+  public Status startTransaction(String key) throws DBException {
     try (final TraceScope span = tracer.newScope(scopeStringStartTransaction)) {
-      db.startTransaction(key);
+      return db.startTransaction(key);
     }
   }
 
   /**
    * Commit the transaction.
    */
-  public void commit(String key) throws DBException {
+  public Status commit(String key) throws DBException {
     try (final TraceScope span = tracer.newScope(scopeStringCommit)) {
       long ist = measurements.getIntendedtartTimeNs();
       long st = System.nanoTime();
-      db.commit(key);
+      Status status = db.commit(key);
       long en = System.nanoTime();
       measure("COMMIT", Status.OK, ist, st, en);
+      return status;
     }
   }
 
   /**
    * Abort the transaction.
    */
-  public void abort(String key) throws DBException {
+  public Status abort(String key) throws DBException {
     try (final TraceScope span = tracer.newScope(scopeStringAbort)) {
       long ist = measurements.getIntendedtartTimeNs();
       long st = System.nanoTime();
-      db.abort(key);
+      Status status = db.abort(key);
       long en = System.nanoTime();
       measure("ABORT", Status.OK, ist, st, en);
+      return status;
     }
   }
 
