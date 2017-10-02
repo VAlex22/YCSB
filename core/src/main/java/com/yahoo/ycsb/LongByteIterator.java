@@ -29,4 +29,9 @@ public class LongByteIterator extends ByteIterator {
   public long bytesLeft() {
     return 0;
   }
+
+  @Override
+  public String toString() {
+    return String.valueOf(l);
+  }
 }

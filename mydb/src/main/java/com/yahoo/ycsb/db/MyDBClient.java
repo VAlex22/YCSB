@@ -54,7 +54,7 @@ public class MyDBClient extends DB {
         if (response.getType() == Messages.Response.RESPONSE_TYPE.STATUS) {
           return Status.ERROR;
         } else {
-          result.put(TransactionalWorkload.FIELDNAME, new LongByteIterator(Long.valueOf(response.getLongResult())));
+          result.put(TransactionalWorkload.FIELDNAME, new LongByteIterator(Long.parseLong(response.getLongResult())));
           return Status.OK;
         }
       } catch (IOException e) {
